@@ -6,11 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class TodoItem extends StatelessWidget {
+  final Todo todo;
   final VoidCallback onCheckPressed;
   static const verticalPadding = 8.0;
 
-  final Todo todo;
-  const TodoItem(this.todo, {required this.onCheckPressed, super.key});
+  const TodoItem({
+    required this.todo,
+    required this.onCheckPressed,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
