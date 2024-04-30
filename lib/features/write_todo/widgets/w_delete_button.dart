@@ -13,8 +13,8 @@ class DeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RoundedContainer(
+      onPressed: onPressed,
       child: const Icon(Icons.delete, color: AppColors.grey400, size: 32.0),
-      onPressed: () {},
     );
   }
 }

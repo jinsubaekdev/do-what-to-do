@@ -11,8 +11,13 @@ class TodoDataHolder extends StateNotifier<List<Todo>> {
     state = [...state.map((e) => e.id == todo.id ? newTodo : e)];
   }
 
-  void addTodo(Todo todo) {
-    state = [...state, todo];
+  void addOrUpdateTodo(Todo todo) {
+    final isOldTodo = state.any((e) => e.id == todo.id);
+    if (isOldTodo) {
+      state = [...state.map((e) => e.id == todo.id ? todo : e)];
+    } else {
+      state = [...state, todo];
+    }
   }
 
   void deleteTodo(Todo todo) {

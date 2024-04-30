@@ -6,7 +6,6 @@ import 'package:do_what_to_do/common/widgets/w_empty_expended.dart';
 import 'package:do_what_to_do/common/widgets/w_width_and_height.dart';
 import 'package:do_what_to_do/features/todos/models/vo_todo.dart';
 import 'package:do_what_to_do/features/todos/state/todo_data_holder.dart';
-import 'package:do_what_to_do/features/write_todo/widgets/w_app_close_button.dart';
 import 'package:do_what_to_do/features/write_todo/widgets/w_delete_button.dart';
 import 'package:do_what_to_do/features/write_todo/widgets/w_mark_todo_button.dart';
 import 'package:do_what_to_do/features/write_todo/widgets/w_save_button.dart';
@@ -39,13 +38,18 @@ class WriteTodoScreen extends ConsumerStatefulWidget {
 
 class _WriteTodoScreenState extends ConsumerState<WriteTodoScreen> with AfterLayoutMixin {
   late Todo todo;
+
+  final titleController = TextEditingController();
   final titleNode = FocusNode();
+  final descriptionController = TextEditingController();
   final descriptionNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     todo = widget.todo ?? Todo(id: const Uuid().v4(), title: '');
+    titleController.text = todo.title;
+    descriptionController.text = todo.description ?? '';
   }
 
   @override
@@ -70,17 +74,20 @@ class _WriteTodoScreenState extends ConsumerState<WriteTodoScreen> with AfterLay
             _TodoContainerLayout(
               child: Column(
                 children: [
-                  _Header(
+                  TodoTitleTextField(
+                    focusNode: titleNode,
+                    controller: titleController,
                     onChanged: onTitleChanged,
                     onEditingComplete: descriptionNode.requestFocus,
-                    focusNode: titleNode,
+                    onClosePressed: () => Navigator.of(context).pop(),
                   ),
                   height16,
                   Expanded(
                     child: TodoDescriptionTextField(
+                      focusNode: descriptionNode,
+                      controller: descriptionController,
                       onChanged: onDescriptionChanged,
                       onActionPressed: takeActionOnDescription,
-                      focusNode: descriptionNode,
                     ),
                   ),
                 ],
@@ -128,7 +135,7 @@ class _WriteTodoScreenState extends ConsumerState<WriteTodoScreen> with AfterLay
   }
 
   void saveTodo() {
-    ref.readTodoDataHolder.addTodo(todo);
+    ref.readTodoDataHolder.addOrUpdateTodo(todo);
     Navigator.of(context).pop();
   }
 }
@@ -151,34 +158,6 @@ class _TodoContainerLayout extends StatelessWidget {
         ),
         child: child,
       ),
-    );
-  }
-}
-
-class _Header extends StatelessWidget {
-  final FocusNode focusNode;
-  final ValueChanged<String> onChanged;
-  final VoidCallback onEditingComplete;
-
-  const _Header({
-    required this.onChanged,
-    required this.onEditingComplete,
-    required this.focusNode,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: TodoTitleTextField(
-            onChanged: onChanged,
-            onEditingComplete: onEditingComplete,
-            focusNode: focusNode,
-          ),
-        ),
-        AppCloseButton(onPressed: () => Navigator.of(context).pop()),
-      ],
     );
   }
 }

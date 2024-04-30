@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 
 class TodoDescriptionTextField extends StatelessWidget {
   final ValueChanged<String> onChanged;
+  final TextEditingController controller;
   final VoidCallback onActionPressed;
   final FocusNode focusNode;
 
   const TodoDescriptionTextField({
     required this.onChanged,
+    required this.controller,
     required this.onActionPressed,
     required this.focusNode,
     super.key,
@@ -19,6 +21,7 @@ class TodoDescriptionTextField extends StatelessWidget {
     return TextField(
       maxLines: null,
       focusNode: focusNode,
+      controller: controller,
       onChanged: onChanged,
       style: AppTextTheme.xl.regular,
       decoration: InputDecoration.collapsed(
