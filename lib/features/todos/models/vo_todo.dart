@@ -8,7 +8,7 @@ class Todo with _$Todo {
   const factory Todo({
     required String id,
     required String title,
-    required bool isComplete,
+    @Default(false) bool isComplete,
     String? description,
     @Default([]) List<SubTodo> subTodos,
   }) = _Todo;

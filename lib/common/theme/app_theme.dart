@@ -5,6 +5,7 @@ class AppTextTheme {
   static const _smSize = 14.0;
   static const _mdSize = 16.0;
   static const _lgSize = 18.0;
+  static const _xlSize = 20.0;
 
   static const _displayXsSize = 24.0;
 
@@ -39,6 +40,13 @@ class AppTextTheme {
     medium: _mediumStyle.copyWith(fontSize: _lgSize),
     semiBold: _semiBoldStyle.copyWith(fontSize: _lgSize),
     bold: _boldStyle.copyWith(fontSize: _lgSize),
+  );
+
+  static final xl = TextWeight(
+    regular: _regularStyle.copyWith(fontSize: _xlSize),
+    medium: _mediumStyle.copyWith(fontSize: _xlSize),
+    semiBold: _semiBoldStyle.copyWith(fontSize: _xlSize),
+    bold: _boldStyle.copyWith(fontSize: _xlSize),
   );
 
   static final displayXs = TextWeight(

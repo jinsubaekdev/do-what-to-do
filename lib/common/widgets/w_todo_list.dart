@@ -1,5 +1,6 @@
 import 'package:do_what_to_do/common/widgets/w_todo_item.dart';
 import 'package:do_what_to_do/features/todos/state/todo_data_holder.dart';
+import 'package:do_what_to_do/features/write_todo/s_write_todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,6 +16,7 @@ class TodoList extends ConsumerWidget {
         return TodoItem(
           todo: e,
           onCheckPressed: () => ref.readTodoDataHolder.changeTodoStatus(e),
+          onContentPressed: () => WriteTodoScreen.navigate(context: context, todo: e),
         );
       }).toList(),
     );

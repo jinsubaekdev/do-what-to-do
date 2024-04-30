@@ -7,6 +7,6 @@ class SubTodo with _$SubTodo {
   const factory SubTodo({
     required String id,
     required String title,
-    required bool isComplete,
+    @Default(false) bool isComplete,
   }) = _SubTodo;
 }

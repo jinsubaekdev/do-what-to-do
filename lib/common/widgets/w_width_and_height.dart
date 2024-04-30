@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-const width4 = Width(8);
+const width4 = Width(4);
 const width8 = Width(8);
-const width16 = Width(8);
+const width12 = Width(12);
+const width16 = Width(16);
 
 const height4 = Height(4);
 const height8 = Height(8);
