@@ -2,6 +2,7 @@ import 'package:do_what_to_do/common/theme/app_theme.dart';
 import 'package:do_what_to_do/common/widgets/w_todo_list.dart';
 import 'package:do_what_to_do/common/widgets/w_width_and_height.dart';
 import 'package:do_what_to_do/features/write_todo/s_write_todo.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -24,7 +25,7 @@ class TodosScreen extends ConsumerWidget {
             children: [
               _Header(),
               height16,
-              TodoList(),
+              Expanded(child: TodoList()),
             ],
           ),
         ),
