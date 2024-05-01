@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class MarkTodoButton extends StatelessWidget {
-  static const rightPaddingValue = 32.0;
+  static const rightPaddingValue = 24.0;
 
   final bool value;
   final VoidCallback onPressed;
@@ -21,19 +21,14 @@ class MarkTodoButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RoundedContainer(
+      onPressed: onPressed,
       child: Row(
         children: [
           _Checkbox(value),
           width4,
-          'Mark as done'
-              .text
-              .textStyle(AppTextTheme.md.semiBold)
-              .white
-              .make()
-              .pOnly(right: rightPaddingValue),
+          'Mark as done'.text.textStyle(AppTextTheme.md.semiBold).white.make(),
         ],
-      ),
-      onPressed: onPressed,
+      ).pOnly(right: rightPaddingValue),
     );
   }
 }

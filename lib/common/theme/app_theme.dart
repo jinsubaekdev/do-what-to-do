@@ -1,4 +1,16 @@
+import 'package:do_what_to_do/common/const/colors.dart';
 import 'package:flutter/material.dart';
+
+class AppTheme {
+  static ThemeData themeData = ThemeData(
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      foregroundColor: Colors.white,
+      backgroundColor: AppColors.primary,
+    ),
+    textTheme: TextTheme(bodyMedium: AppTextTheme.sm.regular),
+    fontFamily: 'Pretendard',
+  );
+}
 
 class AppTextTheme {
   static const _xsSize = 12.0;

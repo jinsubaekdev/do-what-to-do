@@ -1,3 +1,4 @@
+import 'package:do_what_to_do/common/theme/app_theme.dart';
 import 'package:do_what_to_do/features/todos/s_todos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,8 +13,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const ProviderScope(
-      child: MaterialApp(home: TodosScreen()),
+    return ProviderScope(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.themeData,
+        home: const TodosScreen(),
+      ),
     );
   }
 }
