@@ -4,15 +4,20 @@ import 'package:after_layout/after_layout.dart';
 import 'package:do_what_to_do/common/const/dimensions.dart';
 import 'package:do_what_to_do/common/widgets/w_empty_expended.dart';
 import 'package:do_what_to_do/common/widgets/w_width_and_height.dart';
+import 'package:do_what_to_do/features/todos/models/vo_sub_todo.dart';
 import 'package:do_what_to_do/features/todos/models/vo_todo.dart';
 import 'package:do_what_to_do/features/todos/state/todo_data_holder.dart';
+import 'package:do_what_to_do/features/write_todo/models/controllable_sub_todo.dart';
+import 'package:do_what_to_do/features/write_todo/widgets/w_add_sub_todo_button.dart';
 import 'package:do_what_to_do/features/write_todo/widgets/w_delete_button.dart';
 import 'package:do_what_to_do/features/write_todo/widgets/w_mark_todo_button.dart';
 import 'package:do_what_to_do/features/write_todo/widgets/w_save_button.dart';
+import 'package:do_what_to_do/features/write_todo/widgets/w_sub_todo_list.dart';
 import 'package:do_what_to_do/features/write_todo/widgets/w_todo_description_text_field.dart';
 import 'package:do_what_to_do/features/write_todo/widgets/w_todo_title_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -42,14 +47,15 @@ class _WriteTodoScreenState extends ConsumerState<WriteTodoScreen> with AfterLay
   final titleNode = FocusNode();
   final descriptionController = TextEditingController();
   final descriptionNode = FocusNode();
+  final controllableSubTodos = <ControllableSubTodo>[];
 
   @override
   void initState() {
     super.initState();
     todo = widget.todo ?? Todo.empty();
     titleController.text = todo.title;
-    print(todo);
     descriptionController.text = todo.description ?? '';
+    controllableSubTodos.addAll(todo.subTodos.map((e) => ControllableSubTodo.fromSubTodo(e)));
   }
 
   @override
@@ -61,6 +67,7 @@ class _WriteTodoScreenState extends ConsumerState<WriteTodoScreen> with AfterLay
   void dispose() {
     titleNode.dispose();
     descriptionNode.dispose();
+    controllableSubTodos.forEach((e) => e.dispose());
     super.dispose();
   }
 
@@ -73,6 +80,7 @@ class _WriteTodoScreenState extends ConsumerState<WriteTodoScreen> with AfterLay
           children: [
             _TodoContainerLayout(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   TodoTitleTextField(
                     focusNode: titleNode,
@@ -81,15 +89,27 @@ class _WriteTodoScreenState extends ConsumerState<WriteTodoScreen> with AfterLay
                     onEditingComplete: descriptionNode.requestFocus,
                     onClosePressed: () => Navigator.of(context).pop(),
                   ),
-                  height16,
                   Expanded(
-                    child: TodoDescriptionTextField(
-                      focusNode: descriptionNode,
-                      controller: descriptionController,
-                      onChanged: onDescriptionChanged,
-                      onActionPressed: takeActionOnDescription,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SubTodoList(
+                            controllableSubTodos: controllableSubTodos,
+                            onCheckPressed: toggleSubTodoStatus,
+                            onActionPressed: addSubTodoBelow,
+                          ),
+                          height16,
+                          TodoDescriptionTextField(
+                            focusNode: descriptionNode,
+                            controller: descriptionController,
+                            onChanged: onDescriptionChanged,
+                            onActionPressed: takeActionOnDescription,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+                  AddSubTodoButton(onPressed: addSubTodo),
                 ],
               ),
             ),
@@ -135,8 +155,46 @@ class _WriteTodoScreenState extends ConsumerState<WriteTodoScreen> with AfterLay
   }
 
   void saveTodo() {
-    ref.readTodoDataHolder.addOrUpdateTodo(todo);
+    final todoWithSubTodos = todo.copyWith(
+      subTodos: controllableSubTodos.map((e) => e.combineSubTodoWithController()).toList(),
+    );
+    ref.readTodoDataHolder.addOrUpdateTodo(todoWithSubTodos);
     Navigator.of(context).pop();
+  }
+
+  void addSubTodo() {
+    final newControllableSubTodo = ControllableSubTodo.fromSubTodo(SubTodo.empty());
+    setState(() {
+      controllableSubTodos.add(newControllableSubTodo);
+    });
+
+    newControllableSubTodo.focusNode.requestFocus();
+  }
+
+  void addSubTodoBelow(SubTodo subTodo) {
+    final index = controllableSubTodos.indexWhere((e) => e.subTodo.id == subTodo.id);
+    if (index < 0) {
+      return;
+    }
+
+    final newControllableSubTodo = ControllableSubTodo.fromSubTodo(SubTodo.empty());
+    setState(() {
+      controllableSubTodos.insert(index + 1, newControllableSubTodo);
+    });
+
+    newControllableSubTodo.focusNode.requestFocus();
+  }
+
+  void toggleSubTodoStatus(SubTodo subTodo) {
+    final index = controllableSubTodos.indexWhere((e) => e.subTodo.id == subTodo.id);
+    if (index < 0) {
+      return;
+    }
+
+    setState(() {
+      final newSubTodo = subTodo.copyWith(isComplete: !subTodo.isComplete);
+      controllableSubTodos[index].subTodo = newSubTodo;
+    });
   }
 }
 
