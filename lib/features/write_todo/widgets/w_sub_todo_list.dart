@@ -8,7 +8,7 @@ class SubTodoList extends StatelessWidget {
   static const topMarginValue = 16.0;
 
   final List<ControllableSubTodo> controllableSubTodos;
-  final ValueChanged<SubTodo> onCheckPressed;
+  final ValueChanged<ControllableSubTodo> onCheckPressed;
   final ValueChanged<SubTodo> onActionPressed;
 
   const SubTodoList({
@@ -24,7 +24,7 @@ class SubTodoList extends StatelessWidget {
       children: controllableSubTodos.map((e) {
         return SubTodoItem(
           controllableSubTodo: e,
-          onCheckPressed: () => onCheckPressed(e.subTodo),
+          onCheckPressed: () => onCheckPressed(e),
           onActionPressed: () => onActionPressed(e.subTodo),
         );
       }).toList(),

@@ -17,7 +17,6 @@ import 'package:do_what_to_do/features/write_todo/widgets/w_todo_description_tex
 import 'package:do_what_to_do/features/write_todo/widgets/w_todo_title_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -156,14 +155,14 @@ class _WriteTodoScreenState extends ConsumerState<WriteTodoScreen> with AfterLay
 
   void saveTodo() {
     final todoWithSubTodos = todo.copyWith(
-      subTodos: controllableSubTodos.map((e) => e.combineSubTodoWithController()).toList(),
+      subTodos: controllableSubTodos.map((e) => e.subTodo).toList(),
     );
     ref.readTodoDataHolder.addOrUpdateTodo(todoWithSubTodos);
     Navigator.of(context).pop();
   }
 
   void addSubTodo() {
-    final newControllableSubTodo = ControllableSubTodo.fromSubTodo(SubTodo.empty());
+    final newControllableSubTodo = ControllableSubTodo.empty();
     setState(() {
       controllableSubTodos.add(newControllableSubTodo);
     });
@@ -177,7 +176,7 @@ class _WriteTodoScreenState extends ConsumerState<WriteTodoScreen> with AfterLay
       return;
     }
 
-    final newControllableSubTodo = ControllableSubTodo.fromSubTodo(SubTodo.empty());
+    final newControllableSubTodo = ControllableSubTodo.empty();
     setState(() {
       controllableSubTodos.insert(index + 1, newControllableSubTodo);
     });
@@ -185,15 +184,9 @@ class _WriteTodoScreenState extends ConsumerState<WriteTodoScreen> with AfterLay
     newControllableSubTodo.focusNode.requestFocus();
   }
 
-  void toggleSubTodoStatus(SubTodo subTodo) {
-    final index = controllableSubTodos.indexWhere((e) => e.subTodo.id == subTodo.id);
-    if (index < 0) {
-      return;
-    }
-
+  void toggleSubTodoStatus(ControllableSubTodo controllableSubTodo) {
     setState(() {
-      final newSubTodo = subTodo.copyWith(isComplete: !subTodo.isComplete);
-      controllableSubTodos[index].subTodo = newSubTodo;
+      controllableSubTodo.toggleState();
     });
   }
 }
