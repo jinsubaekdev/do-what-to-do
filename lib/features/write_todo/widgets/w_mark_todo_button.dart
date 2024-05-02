@@ -26,7 +26,7 @@ class MarkTodoButton extends StatelessWidget {
         children: [
           _Checkbox(value),
           width4,
-          'Mark as done'.text.textStyle(AppTextTheme.md.semiBold).white.make(),
+          '완료로 표시'.text.textStyle(AppTextTheme.md.semiBold).white.make(),
         ],
       ).pOnly(right: rightPaddingValue),
     );

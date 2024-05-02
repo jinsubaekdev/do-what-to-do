@@ -13,7 +13,7 @@ class TodoList extends ConsumerWidget {
     final todoList = ref.watch(todoDataProvider);
 
     if (todoList.isEmpty) {
-      return EmptyState();
+      return const EmptyState();
     }
 
     return SingleChildScrollView(

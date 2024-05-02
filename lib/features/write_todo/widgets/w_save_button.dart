@@ -26,7 +26,7 @@ class SaveButton extends StatelessWidget {
           borderRadius: borderRadius16,
         ),
         alignment: Alignment.center,
-        child: 'Save'.text.textStyle(AppTextTheme.md.semiBold).make(),
+        child: '저장'.text.textStyle(AppTextTheme.md.semiBold).make(),
       ),
     );
   }

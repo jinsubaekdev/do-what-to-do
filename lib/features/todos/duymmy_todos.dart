@@ -20,6 +20,7 @@ void main() {
 
 final _todo1 = Todo(
   id: '100',
+  createdAt: DateTime(2000),
   title: 'Buy groceries',
   isComplete: false,
   description: 'Buy vegetables and fruits for the week.',
@@ -32,6 +33,7 @@ final _todo1 = Todo(
 
 final _todo2 = Todo(
   id: '200',
+  createdAt: DateTime(2000),
   title: 'Clean the house',
   isComplete: true,
   description: 'Vacuum and mop all rooms.',
@@ -44,6 +46,7 @@ final _todo2 = Todo(
 
 final _todo3 = Todo(
   id: '300',
+  createdAt: DateTime(2000),
   title: 'Prepare for presentation',
   isComplete: false,
   description: 'Create slides and practice speech.',
@@ -56,6 +59,7 @@ final _todo3 = Todo(
 final _todo4 = Todo(
   id: '400',
   title: 'Exercise',
+  createdAt: DateTime(2000),
   isComplete: false,
   description: 'Go for a run or do some yoga.',
   subTodos: [

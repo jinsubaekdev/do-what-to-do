@@ -14,7 +14,6 @@ import 'package:do_what_to_do/features/write_todo/widgets/w_todo_title_text_fiel
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uuid/uuid.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class WriteTodoScreen extends ConsumerStatefulWidget {
@@ -47,8 +46,9 @@ class _WriteTodoScreenState extends ConsumerState<WriteTodoScreen> with AfterLay
   @override
   void initState() {
     super.initState();
-    todo = widget.todo ?? Todo(id: const Uuid().v4(), title: '');
+    todo = widget.todo ?? Todo.empty();
     titleController.text = todo.title;
+    print(todo);
     descriptionController.text = todo.description ?? '';
   }
 

@@ -1,9 +1,13 @@
+import 'package:do_what_to_do/common/data/local/app_database.dart';
 import 'package:do_what_to_do/common/theme/app_theme.dart';
 import 'package:do_what_to_do/features/todos/s_todos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AppDatabase.init();
+
   runApp(const MyApp());
 }
 
