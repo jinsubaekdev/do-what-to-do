@@ -95,7 +95,8 @@ class _WriteTodoScreenState extends ConsumerState<WriteTodoScreen> with AfterLay
                           SubTodoList(
                             controllableSubTodos: controllableSubTodos,
                             onCheckPressed: toggleSubTodoStatus,
-                            onActionPressed: addSubTodoBelow,
+                            onCreateNewItem: addSubTodoBelow,
+                            onDeleteItem: deleteSubTodo,
                           ),
                           height16,
                           TodoDescriptionTextField(
@@ -182,6 +183,18 @@ class _WriteTodoScreenState extends ConsumerState<WriteTodoScreen> with AfterLay
     });
 
     newControllableSubTodo.focusNode.requestFocus();
+  }
+
+  void deleteSubTodo(SubTodo subTodo) {
+    final index = controllableSubTodos.indexWhere((e) => e.subTodo.id == subTodo.id);
+    if (index < 0) {
+      return;
+    }
+
+    setState(() {
+      controllableSubTodos[index].dispose();
+      controllableSubTodos.removeAt(index);
+    });
   }
 
   void toggleSubTodoStatus(ControllableSubTodo controllableSubTodo) {

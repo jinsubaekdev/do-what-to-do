@@ -9,12 +9,14 @@ class SubTodoList extends StatelessWidget {
 
   final List<ControllableSubTodo> controllableSubTodos;
   final ValueChanged<ControllableSubTodo> onCheckPressed;
-  final ValueChanged<SubTodo> onActionPressed;
+  final ValueChanged<SubTodo> onCreateNewItem;
+  final ValueChanged<SubTodo> onDeleteItem;
 
   const SubTodoList({
     required this.controllableSubTodos,
     required this.onCheckPressed,
-    required this.onActionPressed,
+    required this.onCreateNewItem,
+    required this.onDeleteItem,
     super.key,
   });
 
@@ -25,7 +27,8 @@ class SubTodoList extends StatelessWidget {
         return SubTodoItem(
           controllableSubTodo: e,
           onCheckPressed: () => onCheckPressed(e),
-          onActionPressed: () => onActionPressed(e.subTodo),
+          onCreateNewItem: () => onCreateNewItem(e.subTodo),
+          onDeleteItem: () => onDeleteItem(e.subTodo),
         );
       }).toList(),
     ).pOnly(top: topMarginValue);

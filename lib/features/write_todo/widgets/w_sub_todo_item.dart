@@ -9,13 +9,15 @@ import 'package:velocity_x/velocity_x.dart';
 class SubTodoItem extends StatelessWidget {
   final ControllableSubTodo controllableSubTodo;
   final VoidCallback onCheckPressed;
-  final VoidCallback onActionPressed;
+  final VoidCallback onCreateNewItem;
+  final VoidCallback onDeleteItem;
   static const verticalPadding = 8.0;
 
   const SubTodoItem({
     required this.controllableSubTodo,
     required this.onCheckPressed,
-    required this.onActionPressed,
+    required this.onCreateNewItem,
+    required this.onDeleteItem,
     super.key,
   });
 
@@ -39,10 +41,18 @@ class SubTodoItem extends StatelessWidget {
               hintStyle: AppTextTheme.xl.regular.copyWith(color: AppColors.grey400),
             ),
             textInputAction: TextInputAction.next,
-            onEditingComplete: onActionPressed,
+            onEditingComplete: onEditingComplete,
           ),
         ),
       ],
     ).pSymmetric(v: verticalPadding);
+  }
+
+  void onEditingComplete() {
+    if (controllableSubTodo.controller.text.isEmpty) {
+      onDeleteItem();
+    } else {
+      onCreateNewItem();
+    }
   }
 }
