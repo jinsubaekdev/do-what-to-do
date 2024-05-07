@@ -1,16 +1,46 @@
 # do_what_to_do
 
-A new Flutter project.
+Flutter 스터디를 위해 구현한 TodoList 앱
 
-## Getting Started
+## 사용한 기술
+- Isar (로컬 데이터베이스)
+- Riverpod (상태관리)
+- VelocityX (스타일)
+- freezed (모델 관리)
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 프로젝트 구조
+- assets
+    - fonts
+      - 폰트들
+    - images
+      - 이미지들
+- lib
+    - main.dart
+    - common
+        - const
+            - colors.dart
+            - dimensions.dart
+        - theme
+            - app_theme.dart
+        - data
+            - local
+                - app_database.dart
+                - collections
+                    - todo_db_model.dart
+        - widgets
+            - 위젯들
+    - features
+        - todos
+            - s_todos.dart
+            - dummy_todos.dart
+            - models
+                - vo_todo.dart
+                - vo_sub_todo.dart
+            - state
+                - todo_data_holder.dart
+        - write_todo
+            - s_write_todo.dart
+            - models
+                - controllable_sub_todo.dart
+            - widgets
+                - 위젯들
